@@ -3,7 +3,7 @@ import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet } from 'rea
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
-import { postFavorite } from '../redux/ActionCreators';
+import { postFavorite, postComment } from '../redux/ActionCreators';
 
 
 const mapStateToProps = state => {
@@ -15,7 +15,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    postFavorite: campsiteId => (postFavorite(campsiteId))
+    postFavorite: campsiteId => (postFavorite(campsiteId)),
+    postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text))
 };
 
 
@@ -54,7 +55,7 @@ function RenderCampsite(props) {
     return <View />;
 }
 
-function RenderComments({comments, rating}) {
+function RenderComments({comments}) {
     
     const renderCommentItem = ({item}) => {
         return (
@@ -97,7 +98,7 @@ class CampsiteInfo extends Component {
     }
 
     handleComment() {
-        console.log(JSON.stringify(this.state));
+        this.props.postComment(this.props.campsiteId, this.state.rating, this.state.author, this.state.text);
         this.toggleModal();
     }
 
@@ -151,38 +152,37 @@ class CampsiteInfo extends Component {
                         placeholder='Author'
                         leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                         leftIconContainerStyle={{ paddingRight: 10 }}
-                        onChangeText={rating => this.setState({rating: rating})}
+                        onChangeText={author => this.setState({author: author})}
                         value={this.state.author}     
-                    />
+                        >
+                    </Input>
                     <Input
                         placeholder='Comment'
                         leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
                         leftIconContainerStyle={{ paddingRight: 10 }}
-                        onChangeText={rating => this.setState({rating: rating})}
-                        value={this.state.text}
-                    />
-                    <View style={{margin: 10}}>
-                        <View>
-                            <View>
-                                <Button
-                                onPress={() => {
-                                    this.handleComment();
-                                    this.resetForm();
-                                }}
-                                    color='#5637DD'
-                                    title='Submit'
-                                />   
-                            </View>
-                            <View>
-                                <Button
-                                onPress={() => {
-                                    this.toggleModal();
-                                    this.resetForm();
-                                }}
-                                color='#808080'
-                                title='Cancel'
-                                />       
-                            </View>
+                        onChangeText={comment => this.setState({comment: comment})}
+                        value={this.state.comment}
+                        />
+                    <View>
+                        <View style={{margin: 10}}>
+                            <Button
+                            onPress={() => {
+                                this.handleComment();
+                                this.resetForm();
+                            }}
+                                color='#5637DD'
+                                title='Submit'
+                            />   
+                        </View>
+                        <View style={{margin: 10}}>
+                            <Button
+                            onPress={() => {
+                                this.toggleModal();
+                                this.resetForm();
+                            }}
+                            color='#808080'
+                            title='Cancel'
+                            />       
                         </View>
                     </View> 
                 </View>        
