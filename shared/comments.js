@@ -159,5 +159,5 @@ export const COMMENTS =
         text: "I caught a world-record-breaking trout here on my last visit.",
         author: "McKenzie Sebastian",
         date: "2019-02-18T18:12Z"
-    }
+    },
 ]

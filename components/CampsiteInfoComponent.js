@@ -97,9 +97,9 @@ class CampsiteInfo extends Component {
         this.setState({showModal: !this.state.showModal});
     }
 
-    handleComment() {
-        this.props.postComment(this.props.campsiteId, this.state.rating, this.state.author, this.state.text);
+    handleComment(campsiteId) {
         this.toggleModal();
+        this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
     }
 
     resetForm() {
@@ -160,14 +160,14 @@ class CampsiteInfo extends Component {
                         placeholder='Comment'
                         leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
                         leftIconContainerStyle={{ paddingRight: 10 }}
-                        onChangeText={comment => this.setState({comment: comment})}
-                        value={this.state.comment}
+                        onChangeText={text => this.setState({text: text})}
+                        value={this.state.text}
                         />
                     <View>
                         <View style={{margin: 10}}>
                             <Button
                             onPress={() => {
-                                this.handleComment();
+                                this.handleComment(campsiteId);
                                 this.resetForm();
                             }}
                                 color='#5637DD'
