@@ -225,7 +225,7 @@ class RegisterTab extends Component {
                         />
                         <Button
                             title='Gallery'
-                            onPress={this.getImageFromCamera}
+                            onPress={this.getImageFromGallery}
                         />
                     </View>
                     <Input
